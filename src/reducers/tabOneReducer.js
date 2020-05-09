@@ -17,7 +17,6 @@ export default (state = initialState, action) => {
   const pageIdx = page * options.pageSize
   switch (action.type) {
     case Actions.TAB_ONE_EXPAND_RESULT_REQUESTED:
-      console.log(`TAB_ONE_EXPAND_RESULT_REQUESTED`)
       const index = selected.findIndex(s => s === action.key)
       if (index === -1) {
         selected.push(action.key)
@@ -31,10 +30,7 @@ export default (state = initialState, action) => {
     case Actions.TAB_ONE_EXPAND_RESULT_RECEIVED:
       return state
     case Actions.TAB_ONE_DATA_REQUESTED:
-      return {
-        ...state,
-        isLoading: true
-      }
+      return state
     case Actions.TAB_ONE_DATA_RECEIVED:
       const { payload } = action
       if (!queryMap.has(query)) {
@@ -59,7 +55,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         query: actionQuery,
-        isLoading: !exists && actionQuery,
+        isLoading: !exists && actionQuery.length >= 3 && queryData.length === 0,
         queryData
       }
     case Actions.TAB_ONE_LOAD_MORE_REQUESTED:

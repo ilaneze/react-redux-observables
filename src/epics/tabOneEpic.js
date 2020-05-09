@@ -20,7 +20,6 @@ export const requestTabOneDataEpic = (action$, state$) =>
     filter(action => !state$.value.tabOneReducer.queryMap.has(action.query)),
     switchMap(action => {
       const queryUrl = `${URLS.DATA}${action.query}`
-      console.log(`fetching data from ${queryUrl}`)
       return getJSON(queryUrl).pipe(
         mergeMap(response => of(Actions.tabOneDataReceived(response))),
         catchError(error => of(Actions.fetchRejected(error)))

@@ -45,7 +45,6 @@ export default ({
   results = [],
   selected = [],
   isLoading,
-  loadingRef,
   handleSearchClick,
   handleDetailsClick,
   handleLoadMore,
@@ -64,16 +63,18 @@ export default ({
       </Grid>
       <Grid className={classes.filtersContainer} container item>
         <Grid className={classes.searchInfoContainer} container item>
-          {query && <Typography>Showing results for "{query}"</Typography>}
-          {query && results && results.length && results.length > 0 && (
-            <Typography>
-              Displaying '{results.length}' out of '{totalCount}' results
-            </Typography>
+          {query && query.length && query.length > 2 && (
+            <>
+              <Typography>Showing results for "{query}"</Typography>
+              <Typography>
+                Displaying '{results.length}' out of '{totalCount}' results
+              </Typography>
+            </>
           )}
         </Grid>
       </Grid>
       <Grid className={classes.resultsContainer} container item>
-        <Loader ref={loadingRef} isLoading={isLoading} />
+        <Loader isLoading={isLoading} />
         <SearchResults
           totalCount={totalCount}
           pageResults={results}

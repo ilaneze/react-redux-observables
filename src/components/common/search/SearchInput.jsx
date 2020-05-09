@@ -35,6 +35,9 @@ const useSearchInputStyles = makeStyles(theme => ({
     background: theme.palette.primary.main,
     padding: `0 0 0 ${theme.spacing(2)}px`,
     transition: 'all .25s',
+    '& .MuiInputBase-input': {
+      fontSize: '1.7rem'
+    },
     '& .MuiFocused': {},
     '&:hover': {
       boxShadow: `0px 0px 22px 10px ${theme.palette.primary.mainShadow}`
@@ -46,7 +49,12 @@ const useSearchInputStyles = makeStyles(theme => ({
       boxShadow: `0px 0px 22px 10px ${theme.palette.primary.mainShadow}`
     },
     [theme.breakpoints.down('sm')]: {
-      width: '80%'
+      width: '90%',
+      padding: 0,
+      '& .MuiInputBase-input': {
+        fontSize: '1.6rem',
+        textAlign: 'center'
+      }
     }
   }
 }))
@@ -54,7 +62,6 @@ const useSearchInputStyles = makeStyles(theme => ({
 const StyledInput = styled(TextField)`
   && {
     & .MuiInputBase-input {
-      font-size: 1.7rem;
     }
     & .MuiInput-underline:before,
     & .MuiInput-underline:after {
