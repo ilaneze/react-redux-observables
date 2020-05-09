@@ -4,14 +4,15 @@ import { CircularProgress } from '@material-ui/core'
 
 const StyledWrapper = styled.div`
   display: flex;
+  display ${({ isLoading }) => (isLoading ? 'flex' : 'none')};
   width: 100%;
   justify-content: center;
   align-items: center;
 `
 
-export default () => {
+export default ({ isLoading }) => {
   return (
-    <StyledWrapper>
+    <StyledWrapper isLoading={isLoading}>
       <CircularProgress />
     </StyledWrapper>
   )
