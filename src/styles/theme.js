@@ -8,6 +8,13 @@ export default createMuiTheme({
           textDecoration: 'none'
         }
       }
+    },
+    MuiInput: {
+      underline: {
+        '&:before': {
+          borderBottom: 'unset'
+        }
+      }
     }
   },
   palette: {
@@ -81,6 +88,7 @@ export default createMuiTheme({
     background: {
       paper: '#25344f',
       default: '#0c1426',
+      lighterDefault: '#131f39',
       level2: '#333',
       level1: '#212121'
     },

@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"workbench.colorCustomizations": {
+			"statusBar.background": "#8a1972",
+			"statusBarItem.hoverBackground": "#b52196",
+			"statusBar.foreground": "#e7e7e7",
+			"statusBar.border": "#8a1972"
+		},
+		"javascript.validate.enable": false,
+		"eslint.alwaysShowStatus": true,
+		"files.autoSave": "onFocusChange"
+	}
+}
