@@ -29,17 +29,22 @@ const useSearchInputStyles = makeStyles(theme => ({
   },
   searchLabel: {},
   searchInput: {
-    cursor: 'pointer',
     width: '50%',
     height: '3rem',
     borderRadius: '50px',
     background: theme.palette.primary.main,
     padding: `0 0 0 ${theme.spacing(2)}px`,
-    transition: 'all .3s',
+    transition: 'all .25s',
     '& .MuiFocused': {},
-    '&:hover': {},
-    '&:focus': {},
-    '&:active': {},
+    '&:hover': {
+      boxShadow: `0px 0px 22px 10px ${theme.palette.primary.mainShadow}`
+    },
+    '&:focus': {
+      boxShadow: `0px 0px 22px 10px ${theme.palette.primary.mainShadow}`
+    },
+    '&:active': {
+      boxShadow: `0px 0px 22px 10px ${theme.palette.primary.mainShadow}`
+    },
     [theme.breakpoints.down('sm')]: {
       width: '80%'
     }
@@ -49,7 +54,7 @@ const useSearchInputStyles = makeStyles(theme => ({
 const StyledInput = styled(TextField)`
   && {
     & .MuiInputBase-input {
-      font-size: 30px;
+      font-size: 1.7rem;
     }
     & .MuiInput-underline:before,
     & .MuiInput-underline:after {
@@ -60,6 +65,7 @@ const StyledInput = styled(TextField)`
 
 const SearchInput = ({
   label,
+  placeholder = 'What are you looking for?',
   query,
   handleQueryChange,
   handleSearchClick
@@ -79,7 +85,7 @@ const SearchInput = ({
         <Grid className={classes.searchInputContainer} item>
           <StyledInput
             className={classes.searchInput}
-            placeholder="Type something that you like..."
+            placeholder={placeholder}
             onClick={handleSearchClick}
             onKeyUp={handleQueryChange}
           />

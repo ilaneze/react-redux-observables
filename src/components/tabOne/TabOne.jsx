@@ -1,29 +1,58 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
+import styled from '@emotion/styled'
 import { useDispatch, useSelector } from 'react-redux'
-import Actions from '../../actions'
-import Search from '../common/search'
 import debounce from 'lodash/debounce'
+import Search from '../common/search'
+import Actions from '../../actions'
+
+const ContentWrapper = styled.div`
+  height: calc(100vh - 64px);
+  width: 100%;
+`
 
 const TabOne = () => {
   const dispatch = useDispatch()
+
   const {
     query,
+    queryTotalCount,
     queryData,
-    isSearchActive,
+    selected,
     isLoading,
-    options: { page, pageSize }
+    page,
+    options: { pageSize }
   } = useSelector(state => state.tabOneReducer)
 
-  const handleDetailsClick = result => {}
+  const hasMore = queryTotalCount >= (page + 1) * pageSize
 
-  const handleQueryChange = e => {
-    const newQuery = e.target.value
-    if (query === newQuery) return
-    const debouncedFunc = debounce(() => {
-      dispatch(Actions.requestQueryChange(newQuery))
-    }, 500)
-    debouncedFunc()
-  }
+  const handleDetailsClick = useCallback(
+    result => {
+      dispatch(Actions.requestToggleResultDetails(result))
+    },
+    [dispatch]
+  )
+
+  const handleQueryChange = useCallback(
+    e => {
+      const newQuery = e.target.value
+      if (query === newQuery) return
+      const debouncedQueryChange = debounce(() => {
+        dispatch(Actions.requestQueryChange(newQuery))
+      }, 500)
+      debouncedQueryChange()
+    },
+    [dispatch, query]
+  )
+
+  const handleLoadMore = useCallback(
+    e => {
+      if (hasMore) {
+        dispatch(Actions.requestTabOneLoadMore(page))
+      }
+      debugger
+    },
+    [dispatch, hasMore, page]
+  )
 
   useEffect(() => {
     if (!query || query.length < 3) return
@@ -31,19 +60,20 @@ const TabOne = () => {
   }, [dispatch, query])
 
   return (
-    <div>
+    <ContentWrapper>
       <Search
         query={query}
+        totalCount={queryTotalCount}
+        page={page}
+        pageSize={pageSize}
         results={queryData}
+        selected={selected}
         isLoading={isLoading}
-        isSearchActive={isSearchActive}
         handleQueryChange={handleQueryChange}
         handleDetailsClick={handleDetailsClick}
-        handleLoadMore={e => {
-          dispatch(Actions.requestTabOneLoadMore())
-        }}
+        handleLoadMore={handleLoadMore}
       />
-    </div>
+    </ContentWrapper>
   )
 }
 

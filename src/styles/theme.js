@@ -25,6 +25,7 @@ export default createMuiTheme({
     type: 'dark',
     primary: {
       main: '#f43365',
+      mainShadow: '#f433654a',
       light: 'rgb(237, 75, 130)',
       dark: 'rgb(163, 21, 69)',
       contrastText: '#fff'
@@ -86,6 +87,7 @@ export default createMuiTheme({
     },
     divider: 'rgba(255, 255, 255, 0.12)',
     background: {
+      paperShadow: '#37579126',
       paper: '#25344f',
       default: '#0c1426',
       lighterDefault: '#131f39',

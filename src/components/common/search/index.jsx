@@ -1,51 +1,88 @@
 import React from 'react'
-import { Grid } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import StyledInput from './SearchInput'
+import SearchInput from './SearchInput'
 import SearchResults from './SearchResults'
 import Loader from '../Loader'
 
 const useSearchStyles = makeStyles(theme => ({
-  container: {},
-  searchContainer: {
-    margin: theme.spacing(2)
+  container: {
+    position: 'relative',
+    transition: 'transform .25s',
+    transform: ({ defaultView }) =>
+      defaultView ? `translate(0, calc(50vh - 128px))` : `translate(0, 0)`
   },
-  resultsContainer: {}
+  searchContainer: {
+    justifyContent: ({ defaultView }) => (defaultView ? 'center' : ''),
+    alignItems: ({ defaultView }) => (defaultView ? 'center' : ''),
+    margin: ({ defaultView }) => (defaultView ? `${theme.spacing(2)}px 0` : '')
+  },
+  resultsContainer: {},
+  filtersContainer: {
+    flexDirection: 'row',
+    padding: `${theme.spacing(2)}px 0 ${theme.spacing(2)}px ${theme.spacing(
+      5
+    )}px`,
+    position: 'relative',
+    [theme.breakpoints.down('sm')]: {
+      left: 'unset',
+      padding: 'unset',
+      textAlign: 'center',
+      justifyContent: 'center'
+    }
+  },
+  searchInfoContainer: {
+    flexDirection: 'column'
+  }
 }))
 
 export default ({
   searchLabel,
   query,
+  totalCount = 0,
+  page = 1,
+  pageSize = 10,
   results = [],
+  selected = [],
   isLoading,
+  loadingRef,
   handleSearchClick,
   handleDetailsClick,
   handleLoadMore,
   handleQueryChange
 }) => {
-  const classes = useSearchStyles()
+  const classes = useSearchStyles({ defaultView: !query || query.length < 3 })
   return (
     <Grid className={classes.container} container>
       <Grid className={classes.searchContainer} container item>
-        <StyledInput
+        <SearchInput
           label={searchLabel}
           query={query}
           handleQueryChange={handleQueryChange}
           handleSearchClick={handleSearchClick}
         />
       </Grid>
-      <Grid className={classes.resultsContainer} container item>
-        <>
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <SearchResults
-              results={results}
-              handleDetailsClick={handleDetailsClick}
-              handleLoadMore={handleLoadMore}
-            />
+      <Grid className={classes.filtersContainer} container item>
+        <Grid className={classes.searchInfoContainer} container item>
+          {query && <Typography>Showing results for "{query}"</Typography>}
+          {query && results && results.length && results.length > 0 && (
+            <Typography>
+              Displaying '{results.length}' out of '{totalCount}' results
+            </Typography>
           )}
-        </>
+        </Grid>
+      </Grid>
+      <Grid className={classes.resultsContainer} container item>
+        <Loader ref={loadingRef} isLoading={isLoading} />
+        <SearchResults
+          totalCount={totalCount}
+          pageResults={results}
+          selected={selected}
+          pageSize={pageSize}
+          page={page}
+          handleDetailsClick={handleDetailsClick}
+          handleLoadMore={handleLoadMore}
+        />
       </Grid>
     </Grid>
   )
